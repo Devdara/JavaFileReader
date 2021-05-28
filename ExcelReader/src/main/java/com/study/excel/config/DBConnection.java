@@ -10,7 +10,7 @@ public class DBConnection {
 	public static Connection getConnection() {
         String user = "system";
         String pw = "innerinfo";
-        String url = "";
+        String url = "jdbc:oracle:thin:@211.234.63.186:1621:KAIDABAK";
         Connection conn = null;
         
         try {
