@@ -17,7 +17,7 @@ public class txtReader {
 			
 			// 파일 객체 생성
 			File file = new File("D:\\test.txt");
-			// 입력 스트림 생성니엘
+			// 입력 스트림 생성
 			FileInputStream fileInputStream = new FileInputStream(file);
 			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
 			// 입력 버퍼 생성

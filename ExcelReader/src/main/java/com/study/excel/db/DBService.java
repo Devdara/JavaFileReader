@@ -4,15 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.study.excel.config.DBConnection;
 import com.study.excel.model.KaiLawCodeVO;
+import com.study.excel.model.RoadVO;
 
+@Service
 public class DBService {
 
 	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
-    ResultSet res = null;
+    ResultSet rs = null;
+    
 	// 데이터 입력
 	public void insert( KaiLawCodeVO dataVO ) throws SQLException {
 		
@@ -70,6 +77,47 @@ public class DBService {
 	
 	// 데이터 삭제
 	public void delete() {
+		
+		try{
+			
+		}catch(Exception e) {
+			
+		}finally {
+			try { if ( pstmt != null) pstmt.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		
+	}
+	
+	// 데이터 조회
+	public List<RoadVO> getRoadNames(){
+		
+		List<RoadVO> roadList = new ArrayList<RoadVO>();
+		int rowIdx = 0;
+		
+    	try {
+    		
+    		String sql = null;
+        	sql = "SELECT ROAD_NM FROM KAIDA.KAI_LAW_CODE";
+			pstmt = conn.prepareStatement( sql );
+			rs = pstmt.executeQuery();
+			
+			
+			while( rs.next() ) {
+				
+				if( rowIdx == 0 ) {
+					System.out.println( "도로명 : " + rs.getString("ROAD_NM") );
+				}
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return roadList;
 		
 	}
 	

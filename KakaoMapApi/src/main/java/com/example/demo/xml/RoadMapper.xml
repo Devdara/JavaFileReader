@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.RoadMapper">
+
+  <resultMap id="BaseResultMap" type="com.example.demo.model.RoadVO">
+    <result column="LAW_DONG_CODE" jdbcType="VARCHAR" property="lawDongCode" />
+    <result column="SIDO_NM" jdbcType="VARCHAR" property="sidoNm" />
+    <result column="SSG_NM" jdbcType="VARCHAR" property="ssgNm" />
+    <result column="LAW_DONG_NM" jdbcType="VARCHAR" property="lawDongNm" />
+    <result column="ROAD_NM" jdbcType="VARCHAR" property="roadNm" />
+    <result column="LATITUDE" jdbcType="VARCHAR" property="latitude" />
+    <result column="LONGITUDE" jdbcType="VARCHAR" property="longitude" />
+  </resultMap>
+  
+   <select id="getRoadData" resultMap="BaseResultMap">
+   <![CDATA[
+   		SELECT a.LAW_DONG_CODE, a.SIDO_NM, a.SSG_NM, a.LAW_DONG_NM, a.ROAD_NM
+		FROM KAIDA.KAI_LAW_CODE a
+		JOIN (
+			SELECT LAW_DONG_CODE, max(ROWID) ROW_ID
+		    FROM KAIDA.KAI_LAW_CODE
+		    GROUP BY LAW_DONG_CODE
+		) sb
+		ON sb.ROW_ID = a.ROWID
+	]]>
+   </select>
+   
+   <update id="updateRoadXY" parameterType="com.example.demo.model.RoadVO">
+   		<![CDATA[
+	   		UPDATE KAIDA.KAI_LAW_CODE
+	   		SET
+	   			LATITUDE = #{latitude, jdbcType=VARCHAR} 
+	   			,LONGITUDE = #{longitude, jdbcType=VARCHAR}
+	    	WHERE LAW_DONG_CODE  = #{lawDongCode, jdbcType=VARCHAR}
+	    ]]>
+   </update>
+
+</mapper>

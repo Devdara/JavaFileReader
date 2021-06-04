@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.study.excel.db.DBService;
 import com.study.excel.reader.xlsxReader;
 
 /**
@@ -35,14 +37,23 @@ public class HomeController {
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
-		
-		excelReader.getContetns();
-		
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+	@RequestMapping(value = "/road", method = RequestMethod.POST)
+	public ModelAndView getRoadData(Locale locale, Model model) {
+		logger.info("getRoadData");
+		ModelAndView mav = new ModelAndView();
+		
+		DBService dBService = new DBService();
+		mav.addObject("road", dBService.getRoadNames() );
+		
+		mav.setViewName("home");
+		return mav;
 	}
 	
 }
